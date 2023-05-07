@@ -20,11 +20,3 @@ macro(package_add_test TEST_TARGET)
 endmacro()
 
 package_add_test(multiply)
-
-# target_link_libraries(multiply_test
-#  PRIVATE
-#   GTest::GTest
-#   multiply)
-
-# To support ctest, uncomment the following line
-# add_test(multiply_gtests multiply_test)
