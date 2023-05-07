@@ -1,7 +1,6 @@
 # GTest include code would
 # go somewhere in here
 
-add_executable(multiply_test multiply_test.cc)
 include(FetchContent)
 
 FetchContent_Declare(
@@ -14,9 +13,18 @@ FetchContent_MakeAvailable(googletest)
 add_library(GTest::GTest INTERFACE IMPORTED)
 target_link_libraries(GTest::GTest INTERFACE gtest_main)
 
-target_link_libraries(multiply_test
- PRIVATE
-  GTest::GTest
-  multiply)
+macro(package_add_test TEST_TARGET)
+  add_executable(${TEST_TARGET}_test ${TEST_TARGET}_test.cc)
+  target_link_libraries(${TEST_TARGET}_test PRIVATE GTest::GTest ${TEST_TARGET})
+  add_test(NAME ${TEST_TARGET}_test COMMAND ${TEST_TARGET}_test)
+endmacro()
 
-add_test(multiply_gtests multiply_test)
+package_add_test(multiply)
+
+# target_link_libraries(multiply_test
+#  PRIVATE
+#   GTest::GTest
+#   multiply)
+
+# To support ctest, uncomment the following line
+# add_test(multiply_gtests multiply_test)
